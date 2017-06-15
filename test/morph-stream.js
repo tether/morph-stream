@@ -14,7 +14,6 @@ test('morph string into stream', assert => {
   }))
 })
 
-
 test('morph number into stream', assert => {
   assert.plan(1)
   morph(10).pipe(concat(data => {
@@ -22,10 +21,18 @@ test('morph number into stream', assert => {
   }))
 })
 
-
 test('morph boolean into stream', assert => {
   assert.plan(1)
   morph(true).pipe(concat(data => {
     assert.equal(data.toString(), 'true')
+  }))
+})
+
+test('morph object into stream', assert => {
+  assert.plan(1)
+  morph({
+    foo: 'bar'
+  }).pipe(concat(data => {
+    assert.equal(data, 'true')
   }))
 })
