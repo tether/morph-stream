@@ -10,7 +10,7 @@ const Readable = require('readable-stream').Readable
 module.exports = function (value) {
   const stream = new Readable
   stream._read = () => {}
-  stream.push(value)
+  stream.push(value.toString())
   stream.push(null)
   return stream
   // do something

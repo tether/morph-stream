@@ -13,3 +13,11 @@ test('morph string into stream', assert => {
     assert.equal(data.toString(), 'hello')
   }))
 })
+
+
+test('morph number into stream', assert => {
+  assert.plan(1)
+  morph(10).pipe(concat(data => {
+    assert.equal(data.toString(), '10')
+  }))
+})
