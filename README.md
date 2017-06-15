@@ -19,6 +19,10 @@ morph('hello').pipe(res)
 morph(new Promise(resolve => {
   setTimeout(() => resolve('hello'), 1000)
 })).pipe(res)
+
+
+// pipe array to response stream
+morp(['hello', 'world', '!']).pipe(res)
 ```
 
 ## Installation
