@@ -54,6 +54,16 @@ test('should not morph a stream and return it', assert => {
   assert.equal(input, output)
 })
 
+test('morph array into stream', assert => {
+  assert.plan(1)
+  const arr = ['hello', 'world', 'foo', 'bar']
+  morph(arr)
+    .on('data', () => arr.pop())
+    .on('end', () => {
+      assert.equal(arr.length, 0)
+    })
+})
+
 /**
  * Create stream.
  *

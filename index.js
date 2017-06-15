@@ -26,6 +26,7 @@ module.exports = function (value) {
   if (bool) {
     if (typeof value.then === 'function') value.then(write)
     else if (typeof value.pipe === 'function') return value
+    else if (value instanceof Array) value.map(item => stream.push(item)) && stream.push(null)
     else write(value)
   } else write(value.toString())
   return stream
