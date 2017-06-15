@@ -1,13 +1,15 @@
-
 /**
  * Test dependencies.
  */
 
 const test = require('tape')
+const morph = require('..')
+const concat = require('concat-stream')
 
-test('this is an example', assert => {
+
+test('morph string into stream', assert => {
   assert.plan(1)
-  assert.equal(1 + 2, 3)
+  morph('hello').pipe(concat(data => {
+    assert.equal(data.toString(), 'hello')
+  }))
 })
-
-  

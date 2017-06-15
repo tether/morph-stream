@@ -1,4 +1,3 @@
-
 {
   "name": "morph-stream",
   "version": "1.0.0",
@@ -21,7 +20,7 @@
   },
   "homepage": "https://github.com/tether/morph-stream#readme",
   "devDependencies": {
+    "concat-stream": "^1.6.0",
     "tape": "*"
   }
 }
-  
