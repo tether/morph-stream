@@ -37,3 +37,12 @@ test('morph object into stream', assert => {
     assert.deepEqual(chunks[0], data)
   }))
 })
+
+test('morph promise into stream', assert => {
+  assert.plan(1)
+  morph(new Promise((resolve, reject) => {
+    setTimeout(() => resolve('hello world'), 500)
+  })).pipe(concat(data => {
+    assert.deepEqual(data, 'hello world')
+  }))
+})
