@@ -30,9 +30,10 @@ test('morph boolean into stream', assert => {
 
 test('morph object into stream', assert => {
   assert.plan(1)
-  morph({
+  const data = {
     foo: 'bar'
-  }).pipe(concat(data => {
-    assert.equal(data, 'true')
+  }
+  morph(data).pipe(concat(chunks => {
+    assert.deepEqual(chunks[0], data)
   }))
 })

@@ -8,9 +8,13 @@ const Readable = require('readable-stream').Readable
  */
 
 module.exports = function (value) {
-  const stream = new Readable
+  const type = typeof value
+  const bool = type === 'object'
+  const stream = new Readable({
+    objectMode:bool
+  })
   stream._read = () => {}
-  stream.push(value.toString())
+  stream.push(bool ? value : value.toString())
   stream.push(null)
   return stream
   // do something
