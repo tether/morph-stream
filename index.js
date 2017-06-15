@@ -1,9 +1,14 @@
+/**
+ * Dependencies.
+ */
+
 const Readable = require('readable-stream').Readable
 
 /**
-
- * This is a simple description.
+ * Transform any value into a readable stream.
  *
+ * @param {String | Number | Boolean | Promises} value
+ * @return {Stream}
  * @api public
  */
 
@@ -13,22 +18,15 @@ module.exports = function (value) {
   const stream = new Readable({
     objectMode: bool
   })
-  stream._read = () => {}
-  if (bool) {
-    if (typeof value.then === 'function') {
-      value.then(reason => {
-        stream.push(reason)
-        stream.push(null)
-      })
-    } else if (typeof value.pipe === 'function') {
-      return value
-    } else {
-      stream.push(value)
-      stream.push(null)
-    }
-  } else {
-    stream.push(value.toString())
+  const write = reason => {
+    stream.push(reason)
     stream.push(null)
   }
+  stream._read = () => {}
+  if (bool) {
+    if (typeof value.then === 'function') value.then(write)
+    else if (typeof value.pipe === 'function') return value
+    else write(value)
+  } else write(value.toString())
   return stream
 }

@@ -55,7 +55,10 @@ test('should not morph a stream and return it', assert => {
 })
 
 /**
+ * Create stream.
  *
+ * @return {ReadableStream}
+ * @api private
  */
 
 function stream () {
