@@ -5,7 +5,7 @@
 const test = require('tape')
 const morph = require('..')
 const concat = require('concat-stream')
-
+const Readable = require('readable-stream').Readable
 
 test('morph string into stream', assert => {
   assert.plan(1)
@@ -46,3 +46,24 @@ test('morph promise into stream', assert => {
     assert.deepEqual(data, 'hello world')
   }))
 })
+
+test('should not morph a stream and return it', assert => {
+  assert.plan(1)
+  const input = stream()
+  const output = morph(input)
+  assert.equal(input, output)
+})
+
+/**
+ *
+ */
+
+function stream () {
+  const read = new Readable
+  read._read = () => {}
+  setTimeout(() => {
+    read.push('hello')
+    read.push(null)
+  }, 50)
+  return read
+}

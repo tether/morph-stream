@@ -14,15 +14,21 @@ module.exports = function (value) {
     objectMode: bool
   })
   stream._read = () => {}
-  if (bool && typeof value.then === 'function') {
-    value.then(reason => {
-      stream.push(reason)
+  if (bool) {
+    if (typeof value.then === 'function') {
+      value.then(reason => {
+        stream.push(reason)
+        stream.push(null)
+      })
+    } else if (typeof value.pipe === 'function') {
+      return value
+    } else {
+      stream.push(value)
       stream.push(null)
-    })
+    }
   } else {
-    stream.push(bool ? value : value.toString())
-    stream.push(null)  
+    stream.push(value.toString())
+    stream.push(null)
   }
   return stream
-  // do something
 }
