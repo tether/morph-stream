@@ -12,22 +12,29 @@ const Readable = require('readable-stream').Readable
  * @api public
  */
 
-module.exports = function (value) {
+module.exports = function (value, readable) {
   const type = typeof value
   const bool = type === 'object'
-  const stream = new Readable({
-    objectMode: bool
-  })
+  const result = stream(readable, bool)
   const write = reason => {
-    stream.push(reason)
-    stream.push(null)
+    result.push(reason)
+    result.push(null)
   }
-  stream._read = () => {}
   if (bool) {
     if (typeof value.then === 'function') value.then(write)
     else if (typeof value.pipe === 'function') return value
-    else if (value instanceof Array) value.map(item => stream.push(item)) && stream.push(null)
+    else if (value instanceof Array) value.map(item => result.push(item)) && result.push(null)
     else write(value)
   } else write(value.toString())
-  return stream
+  return result
+}
+
+
+function stream (obj, objectMode) {
+  if (obj) return obj
+  const result = new Readable({
+    objectMode: objectMode
+  })
+  result._read = () => {}
+  return result
 }

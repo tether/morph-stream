@@ -64,6 +64,16 @@ test('morph array into stream', assert => {
     })
 })
 
+test('should pass readable stream', assert => {
+  assert.plan(1)
+  const read = new Readable
+  read._read = () => {}
+  morph('hello', read)
+  read.pipe(concat(data => {
+    assert.equal(data.toString(), 'hello')
+  }))
+})
+
 /**
  * Create stream.
  *
