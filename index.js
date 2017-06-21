@@ -13,8 +13,7 @@ const Readable = require('readable-stream').Readable
  */
 
 module.exports = function (value, readable) {
-  const type = typeof value
-  const bool = type === 'object'
+  const bool =  typeof value === 'object'
   const result = stream(readable, bool)
   const write = reason => {
     result.push(reason)
@@ -29,6 +28,15 @@ module.exports = function (value, readable) {
   return result
 }
 
+
+/**
+ * Stream factory.
+ *
+ * @param {Stream?} obj
+ * @param {Boolean?} objectMode
+ * @return {Stream}
+ * @api private
+ */
 
 function stream (obj, objectMode) {
   if (obj) return obj
