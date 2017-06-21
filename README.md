@@ -1,6 +1,6 @@
 # Morph-Stream
 
-[![Build Status](https://travis-ci.org/petrofeed/morph-stream.svg?branch=master)](https://travis-ci.org/petrofeed/morph-stream)
+[![Build Status](https://travis-ci.org/tether/morph-stream.svg?branch=master)](https://travis-ci.org/tether/morph-stream)
 [![NPM](https://img.shields.io/npm/v/morph-stream.svg)](https://www.npmjs.com/package/morph-stream)
 [![Downloads](https://img.shields.io/npm/dm/morph-stream.svg)](http://npm-stat.com/charts.html?package=morph-stream)
 [![guidelines](https://tether.github.io/contribution-guide/badge-guidelines.svg)](https://github.com/tether/contribution-guide)
@@ -41,9 +41,9 @@ For support, bug reports and or feature requests please make sure to read our
 
 ## Contribution
 
-The open source community is very important to us. If you want to participate to this repository, please make sure to read our <a href="https://github.com/tether/contribution-guide" target="_blank">guideline</a> before making any pull request. If you have any related project, please let everyone know in our wiki.
-## License
+The open source community is very important to us. If you want to participate to this repository, please make sure to read our <a href="https://github.com/tether/contribution-guide" target="_blank">guidelines</a> before making any pull request. If you have any related project, please let everyone know in our wiki.
 
+## License
 
 The MIT License (MIT)
 
