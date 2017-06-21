@@ -28,22 +28,12 @@ test('morph boolean into stream', assert => {
   }))
 })
 
-test('morph object into stream', assert => {
-  assert.plan(1)
-  const data = {
-    foo: 'bar'
-  }
-  morph(data).pipe(concat(chunks => {
-    assert.deepEqual(chunks[0], data)
-  }))
-})
-
 test('morph promise into stream', assert => {
   assert.plan(1)
   morph(new Promise((resolve, reject) => {
     setTimeout(() => resolve('hello world'), 500)
   })).pipe(concat(data => {
-    assert.deepEqual(data, 'hello world')
+    assert.deepEqual(data.toString(), 'hello world')
   }))
 })
 
@@ -70,12 +60,22 @@ test('should pass readable stream', assert => {
   assert.plan(1)
   const read = new Readable
   read._read = () => {}
-  morph('hello', read)
+  morph('hello', false, read)
   read.pipe(concat(data => {
     assert.equal(data.toString(), 'hello')
   }))
 })
 
+
+test('morph object into stream', assert => {
+  assert.plan(1)
+  const data = {
+    foo: 'bar'
+  }
+  morph(data).pipe(concat(chunks => {
+    assert.equal(chunks.toString(), JSON.stringify(data))
+  }))
+})
 
 /**
  * Create stream.
