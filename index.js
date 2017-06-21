@@ -21,8 +21,10 @@ module.exports = function (value, readable) {
   }
   if (bool) {
     if (typeof value.then === 'function') value.then(write)
-    else if (typeof value.pipe === 'function') return value
-    else if (value instanceof Array) value.map(item => result.push(item)) && result.push(null)
+    else if (typeof value.pipe === 'function') {
+      value.on('data', buf => result.push(buf))
+      value.on('end', () => result.push(null))
+    } else if (value instanceof Array) value.map(item => result.push(item)) && result.push(null)
     else write(value)
   } else write(value.toString())
   return result

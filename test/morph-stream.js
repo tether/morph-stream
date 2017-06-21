@@ -47,11 +47,13 @@ test('morph promise into stream', assert => {
   }))
 })
 
-test('should not morph a stream and return it', assert => {
+test('morph stream', assert => {
   assert.plan(1)
   const input = stream()
-  const output = morph(input)
-  assert.equal(input, output)
+  morph(input)
+   .pipe(concat(data => {
+     assert.equal(data.toString(), 'hello')
+   }))
 })
 
 test('morph array into stream', assert => {
