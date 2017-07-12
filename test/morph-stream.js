@@ -55,6 +55,13 @@ test('should pass error to stream when promise is rejected', assert => {
   })
 })
 
+// test('should end strean when promise is rejected', assert => {
+//   assert.plan(1)
+//   morph(new Promise((resolve, reject) => {
+//     reject('failed!')
+//   })).on('end', () => assert.ok('stream ended'))
+// })
+
 test('morph stream', assert => {
   assert.plan(1)
   const input = stream()
