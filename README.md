@@ -22,8 +22,11 @@ morph(new Promise(resolve => {
 
 
 // pipe array to response stream
-morp(['hello', 'world', '!']).pipe(res)
+morph(['hello', 'world', '!']).pipe(res)
 ```
+
+When a promise is rejected, the error is propagated through the stream and it's your responsibility to [catch it](https://nodejs.org/api/stream.html#stream_event_error_1) and process it.
+
 
 ## Installation
 
