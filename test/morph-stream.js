@@ -37,6 +37,24 @@ test('morph promise into stream', assert => {
   }))
 })
 
+test('should pass error to stream when promise throw an error', assert => {
+  assert.plan(1)
+  morph(new Promise((resolve, reject) => {
+    throw new Error('failed!')
+  })).on('error', e => {
+    assert.equal(e.message, 'failed!')
+  })
+})
+
+test('should pass error to stream when promise is rejected', assert => {
+  assert.plan(1)
+  morph(new Promise((resolve, reject) => {
+    reject('failed!')
+  })).on('error', e => {
+    assert.equal(e, 'failed!')
+  })
+})
+
 test('morph stream', assert => {
   assert.plan(1)
   const input = stream()

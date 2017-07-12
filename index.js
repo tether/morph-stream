@@ -21,7 +21,7 @@ module.exports = function (value, objectMode, readable) {
     result.push(null)
   }
   if (typeof value === 'object') {
-    if (typeof value.then === 'function') value.then(write)
+    if (typeof value.then === 'function') value.then(write, (reason) => result.emit('error', reason))
     else if (typeof value.pipe === 'function') {
       value.on('data', buf => result.push(buf))
       value.on('end', () => result.push(null))
