@@ -14,15 +14,18 @@ const Readable = require('readable-stream').Readable
  * @api public
  */
 
-module.exports = function (value, objectMode, readable) {
+module.exports = function morph (value, objectMode, readable) {
   const result = stream(readable, objectMode)
   const write = reason => {
     result.push(reason)
     result.push(null)
   }
   if (typeof value === 'object') {
-    if (typeof value.then === 'function') value.then(write, reason => result.emit('error', reason))
-    else if (typeof value.pipe === 'function') {
+    if (typeof value.then === 'function') {
+       value.then(val => {
+         morph(val, objectMode, result)
+       }, reason => result.emit('error', reason))
+    } else if (typeof value.pipe === 'function') {
       value.on('data', buf => result.push(buf))
       value.on('end', () => result.push(null))
     } else if (value instanceof Array) value.map(item => result.push(item)) && result.push(null)
