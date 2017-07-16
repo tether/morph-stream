@@ -37,6 +37,16 @@ test('morph promise into stream', assert => {
   }))
 })
 
+test('morph stream resolved by a promise', assert => {
+  assert.plan(1)
+  morph(new Promise(resolve => {
+    resolve(stream())
+  })).pipe(concat(data => {
+    assert.equal(data.toString(), 'hello')
+  }))
+})
+
+
 test('should pass error to stream when promise throw an error', assert => {
   assert.plan(1)
   morph(new Promise((resolve, reject) => {
