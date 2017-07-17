@@ -15,22 +15,28 @@ const toString = Object.prototype.toString
  * @api public
  */
 
-module.exports = function (arg) {
+module.exports = function morph (value) {
   const result = new Readable
   result._read = () => {}
-  switch(type(arg)) {
+  switch(type(value)) {
+    case 'String':
+      result.push(value)
+      result.push(null)
+      break
     case 'Promise':
-      arg.then(value => {
-        result.push(value)
-        result.push(null)
-      }, reason => {
-        result.emit('error', reason)
-      })
+      promise(result, value)
       break
     default:
       break
   }
   return result
+}
+
+function promise (input, value) {
+  value.then(val => {
+    input.push(val)
+    input.push(null)
+  }, reason => input.emit('error', reason))
 }
 
 
