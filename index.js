@@ -29,8 +29,7 @@ module.exports = function morph (value) {
       promise(result, value)
       break
     case 'Object':
-      result.push(value)
-      result.push(null)
+      object(result, value)
       break
     case 'Array':
       value.map(item => {
@@ -42,6 +41,17 @@ module.exports = function morph (value) {
       break
   }
   return result
+}
+
+function object (input, value) {
+  if (typeof value.on === 'function' && typeof value.pipe === 'function') {
+    value.on('data', data => input.push(data))
+    value.on('error', err => input.emit('error', err))
+    value.on('end', () => input.push(null))
+  } else {
+    input.push(value)
+    input.push(null)
+  }
 }
 
 function promise (input, value) {

@@ -5,7 +5,7 @@
 const test = require('tape')
 const morph = require('..')
 const concat = require('concat-stream')
-
+const fs = require('fs')
 
 test('morph string into stream', assert => {
   assert.plan(1)
@@ -38,6 +38,12 @@ test('morph rejected promise into stream', assert => {
   assert.plan(1)
   const promise = new Promise((resolve, reject) => reject('hello'))
   morph(promise).on('error', err => assert.equal(err, 'hello'))
+})
+
+test('morph input stream into output stream', assert => {
+  assert.plan(1)
+  morph(fs.createReadStream(__dirname + '/morph.txt'))
+    .pipe(concat(data => assert.equal(data.toString(), 'hello world!\n')))
 })
 
 // promise resolve to stream, stirng, etc
