@@ -21,6 +21,11 @@ test('morph object into stream', assert => {
   })))
 })
 
+test('morph array into stream', assert => {
+  assert.plan(1)
+  morph(['hello', 'world']).pipe(concat(data => assert.equal(data, 'helloworld')))
+})
+
 test('morph resolved promise into stream', assert => {
   assert.plan(1)
   const promise = new Promise(resolve => resolve('hello'))

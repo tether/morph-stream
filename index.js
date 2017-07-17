@@ -32,6 +32,12 @@ module.exports = function morph (value) {
       result.push(value)
       result.push(null)
       break
+    case 'Array':
+      value.map(item => {
+        result.push(item)
+      })
+      result.push(null)
+      break
     default:
       break
   }
