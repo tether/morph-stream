@@ -14,41 +14,6 @@ const Readable = require('readable-stream').Readable
  * @api public
  */
 
-module.exports = function morph (value, objectMode, readable) {
-  const result = stream(readable, objectMode)
-  const write = reason => {
-    result.push(reason)
-    result.push(null)
-  }
-  if (typeof value === 'object') {
-    if (typeof value.then === 'function') {
-       value.then(val => {
-         morph(val, objectMode, result)
-       }, reason => result.emit('error', reason))
-    } else if (typeof value.pipe === 'function') {
-      value.on('data', buf => result.push(buf))
-      value.on('end', () => result.push(null))
-    } else if (value instanceof Array) value.map(item => result.push(item)) && result.push(null)
-    else write(objectMode ? value : JSON.stringify(value))
-  } else write(value.toString())
-  return result
-}
-
-
-/**
- * Stream factory.
- *
- * @param {Stream?} obj
- * @param {Boolean?} objectMode
- * @return {Stream}
- * @api private
- */
-
-function stream (obj, objectMode) {
-  if (obj) return obj
-  const result = new Readable({
-    objectMode: objectMode
-  })
-  result._read = () => {}
-  return result
+module.exports = function morph () {
+  
 }
