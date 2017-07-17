@@ -7,12 +7,12 @@ const morph = require('..')
 const concat = require('concat-stream')
 const fs = require('fs')
 
-test('morph string into stream', assert => {
+test('morph string', assert => {
   assert.plan(1)
   morph('hello world').pipe(concat(data => assert.equal(data.toString(), 'hello world')))
 })
 
-test('morph object into stream', assert => {
+test('morph object', assert => {
   assert.plan(1)
   morph({
     foo: 'bar'
@@ -21,12 +21,19 @@ test('morph object into stream', assert => {
   })))
 })
 
-test('morph array into stream', assert => {
+test('morph array', assert => {
   assert.plan(1)
   morph(['hello', 'world']).pipe(concat(data => assert.equal(data, 'helloworld')))
 })
 
-test('morph resolved promise into stream', assert => {
+
+test('morph input stream into output stream', assert => {
+  assert.plan(1)
+  morph(fs.createReadStream(__dirname + '/morph.txt'))
+    .pipe(concat(data => assert.equal(data.toString(), 'hello world!\n')))
+})
+
+test('morph resolved promise', assert => {
   assert.plan(1)
   const promise = new Promise(resolve => resolve('hello'))
   morph(promise).pipe(concat(data => {
@@ -34,15 +41,18 @@ test('morph resolved promise into stream', assert => {
   }))
 })
 
-test('morph rejected promise into stream', assert => {
+test('morph rejected promise', assert => {
   assert.plan(1)
   const promise = new Promise((resolve, reject) => reject('hello'))
   morph(promise).on('error', err => assert.equal(err, 'hello'))
 })
 
-test('morph input stream into output stream', assert => {
+test('morph stream resolved by promise', assert => {
   assert.plan(1)
-  morph(fs.createReadStream(__dirname + '/morph.txt'))
+  const promise = new Promise((resolve, reject) => {
+    resolve(fs.createReadStream(__dirname + '/morph.txt'))
+  })
+  morph(promise)
     .pipe(concat(data => assert.equal(data.toString(), 'hello world!\n')))
 })
 
