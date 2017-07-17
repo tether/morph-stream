@@ -23,6 +23,8 @@ module.exports = function (arg) {
       arg.then(value => {
         result.push(value)
         result.push(null)
+      }, reason => {
+        result.emit('error', reason)
       })
       break
     default:
