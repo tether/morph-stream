@@ -16,7 +16,9 @@ const toString = Object.prototype.toString
  */
 
 module.exports = function morph (value) {
-  const result = new Readable
+  const result = new Readable({
+    objectMode: true
+  })
   result._read = () => {}
   switch(type(value)) {
     case 'String':
@@ -25,6 +27,10 @@ module.exports = function morph (value) {
       break
     case 'Promise':
       promise(result, value)
+      break
+    case 'Object':
+      result.push(value)
+      result.push(null)
       break
     default:
       break
