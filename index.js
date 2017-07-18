@@ -42,12 +42,12 @@ function morph (value, input) {
   return result
 }
 
+
 function readable () {
   const input = new Readable({
     objectMode: true
   })
   input._read = () => {}
-  //@note we should debug errors
   return input
 }
 
@@ -84,6 +84,7 @@ function stream (input, value) {
   value.on('end', () => input.push(null))
 }
 
+
 function promise (input, value) {
   value.then(val => {
     morph(val, input)
@@ -92,6 +93,7 @@ function promise (input, value) {
 
 
 function error (input, value) {
+  //@note we should debug errors
   // make error asynchronous
   Promise.resolve().then(() => input.emit('error', value))
 }

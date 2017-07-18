@@ -29,7 +29,7 @@ test('morph array', assert => {
 
 test('morph function', assert => {
   assert.plan(1)
-  morph(() => 'hello world').pipe(concat(data => assert.equal(data.toString(), 'hello world')))  
+  morph(() => 'hello world').pipe(concat(data => assert.equal(data.toString(), 'hello world')))
 })
 
 test('morph input stream into output stream', assert => {
@@ -67,5 +67,10 @@ test('should emit error when morphing error', assert => {
   })
 })
 
-
+test('should end stream if value == null', assert => {
+  assert.plan(1)
+  morph(null).pipe(concat(data => {
+    assert.equal(data.length, 0)
+  }))
+})
 // promise resolve to stream, stirng, etc
