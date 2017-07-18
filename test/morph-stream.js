@@ -13,6 +13,13 @@ test('morph string', assert => {
   morph('hello world').pipe(concat(data => assert.equal(data.toString(), 'hello world')))
 })
 
+test('morph other primitives', assert => {
+  assert.plan(3)
+  morph(10).pipe(concat(data => assert.equal(data.toString(), '10')))
+  morph(true).pipe(concat(data => assert.equal(data.toString(), 'true')))
+  morph(false).pipe(concat(data => assert.equal(data.toString(), 'false')))
+})
+
 test('morph object', assert => {
   assert.plan(1)
   morph({
@@ -81,4 +88,3 @@ test('should end stream if value == null', assert => {
     assert.equal(data.length, 0)
   }))
 })
-// promise resolve to stream, stirng, etc
