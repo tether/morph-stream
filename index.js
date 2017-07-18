@@ -111,7 +111,7 @@ function object (input, value) {
   if (typeof value.on === 'function' && typeof value.pipe === 'function') {
     stream(input, value)
   } else {
-    input.push(value)
+    input.push(JSON.stringify(value))
     input.push(null)
   }
 }

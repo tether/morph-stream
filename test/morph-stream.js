@@ -24,7 +24,7 @@ test('morph object', assert => {
   assert.plan(1)
   morph({
     foo: 'bar'
-  }).pipe(concat(data => assert.deepEqual(data[0], {
+  }).pipe(concat(data => assert.deepEqual(JSON.parse(data), {
     foo: 'bar'
   })))
 })
