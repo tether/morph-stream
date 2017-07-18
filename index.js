@@ -5,11 +5,16 @@
 const Readable = require('readable-stream').Readable
 const toString = Object.prototype.toString
 
+/**
+ * Objects supported for morphing.
+ */
 
 const map = {
   'Promise' : promise,
   'Object': object,
-  'Array': array
+  'Array': array,
+  'Error': error,
+  'Function': callback
 }
 
 
@@ -37,10 +42,27 @@ function morph (value, input) {
   return result
 }
 
+function readable () {
+  const input = new Readable({
+    objectMode: true
+  })
+  input._read = () => {}
+  //@note we should debug errors
+  return input
+}
+
+
+function type (value) {
+  const proto = toString.call(value)
+  return proto.substring(8, proto.length - 1)
+}
+
+
 function write (input, value) {
   input.push(value)
   input.push(null)
 }
+
 
 function array (input, value) {
   value.map(item => input.push(item))
@@ -69,16 +91,11 @@ function promise (input, value) {
 }
 
 
-function readable () {
-  const input = new Readable({
-    objectMode: true
-  })
-  input._read = () => {}
-  return input
+function error (input, value) {
+  // make error asynchronous
+  Promise.resolve().then(() => input.emit('error', value))
 }
 
-
-function type (value) {
-  const proto = toString.call(value)
-  return proto.substring(8, proto.length - 1)
+function callback (input, value) {
+  morph(value(), input)
 }
