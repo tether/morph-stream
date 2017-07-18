@@ -1,6 +1,6 @@
 {
   "name": "morph-stream",
-  "version": "3.1.1",
+  "version": "3.2.0",
   "description": "Morph everything into a stream",
   "main": "index.js",
   "scripts": {

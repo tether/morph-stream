@@ -5,7 +5,7 @@
 [![Downloads](https://img.shields.io/npm/dm/morph-stream.svg)](http://npm-stat.com/charts.html?package=morph-stream)
 [![guidelines](https://tether.github.io/contribution-guide/badge-guidelines.svg)](https://github.com/tether/contribution-guide)
 
-Morph any value into a stream. Morph is especially useful to pipe promises with writable promises.
+Transform any value into a stream. Morph is especially useful to pipe promises with writable promises.
 
 ## Usage
 
