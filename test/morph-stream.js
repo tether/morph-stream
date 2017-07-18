@@ -82,6 +82,16 @@ test('should emit error when morphing error', assert => {
   })
 })
 
+test('should morph error returned by promise', assert => {
+  assert.plan(1)
+  const promise = Promise.resolve().then(() => {
+    return new Error('this is an error')
+  })
+  morph(promise).on('error', err => {
+    assert.equal(err.message, 'this is an error')
+  })
+})
+
 test('should end stream if value == null', assert => {
   assert.plan(1)
   morph(null).pipe(concat(data => {
