@@ -52,6 +52,14 @@ test('morph rejected promise', assert => {
   morph(promise).on('error', err => assert.equal(err, 'hello'))
 })
 
+test('morph string resolved by promise', assert => {
+  assert.plan(1)
+  const promise = new Promise((resolve, reject) => {
+    resolve('hello world!')
+  })
+  morph(promise).pipe(concat(data => assert.equal(data.toString(), 'hello world!')))
+})
+
 test('morph stream resolved by promise', assert => {
   assert.plan(1)
   const promise = new Promise((resolve, reject) => {
