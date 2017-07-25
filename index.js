@@ -3,7 +3,9 @@
  */
 
 const Readable = require('readable-stream').Readable
+const pump = require('pump')
 const toString = Object.prototype.toString
+
 
 /**
  * Objects supported for morphing.
@@ -39,7 +41,15 @@ function morph (value, input) {
   const result = input || readable()
   const cb = map[type(value)] || end
   cb(result, value)
-  return result
+  return new Proxy(result, {
+    get(target, key, receiver) {
+      if (key !== 'pipe') return target[key]
+      return function (dest) {
+        pump(result, dest)
+        return dest
+      }
+    }
+  })
 }
 
 /**
