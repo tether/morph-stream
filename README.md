@@ -5,7 +5,7 @@
 [![Downloads](https://img.shields.io/npm/dm/morph-stream.svg)](http://npm-stat.com/charts.html?package=morph-stream)
 [![guidelines](https://tether.github.io/contribution-guide/badge-guidelines.svg)](https://github.com/tether/contribution-guide)
 
-Transform any value into a stream (even promises)! A morph stream efficiently destroy itself once the destination stream is closed.
+Transform any value into a stream (even promises)! A morph stream is also memory efficient and destroys itself once the destination stream is closed.
 
 ## Usage
 
