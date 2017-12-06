@@ -90,7 +90,7 @@ function type (value) {
  */
 
 function end (input, value) {
-  input.push(value)
+  if (value != null) input.push(String(value))
   input.push(null)
 }
 

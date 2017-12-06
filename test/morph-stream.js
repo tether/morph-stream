@@ -98,3 +98,12 @@ test('should end stream if value == null', assert => {
     assert.equal(data.length, 0)
   }))
 })
+
+test('should morph a promise resolving to a primitive', assert => {
+  assert.plan(1)
+  morph(Promise.resolve(true).then(value => {
+    return value
+  })).pipe(concat(data => {
+    assert.equal(data.toString(), 'true')
+  }))
+})
