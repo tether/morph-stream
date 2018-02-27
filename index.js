@@ -2,7 +2,10 @@
  * Dependencies.
  */
 
-const Readable = require('readable-stream').Readable
+const {
+  Readable,
+  Stream
+} = require('stream')
 const pump = require('pump')
 const toString = Object.prototype.toString
 
@@ -14,7 +17,7 @@ const toString = Object.prototype.toString
 const map = {
   'Promise' : promise,
   'Object': object,
-  'Array': array,
+  'Array': stringify,
   'Error': error,
   'Function': callback
 }
@@ -96,20 +99,6 @@ function end (input, value) {
 
 
 /**
- * End input stream with given array.
- *
- * @param {Stream} input
- * @param {Array} value
- * @api private
- */
-
-function array (input, value) {
-  value.map(item => input.push(item))
-  input.push(null)
-}
-
-
-/**
  * End input stream with given object.
  *
  * @param {Stream} input
@@ -118,14 +107,23 @@ function array (input, value) {
  */
 
 function object (input, value) {
-  if (typeof value.on === 'function' && typeof value.pipe === 'function') {
-    stream(input, value)
-  } else {
-    input.push(JSON.stringify(value))
-    input.push(null)
-  }
+  if (value instanceof Stream) stream(input, value)
+  else stringify(input, value)
 }
 
+
+/**
+ * Stringify object and push down the pipe.
+ *
+ * @param {Stream} input
+ * @param {Object} value
+ * @api private
+ */
+
+function stringify (input, value) {
+  input.push(JSON.stringify(value))
+  input.push(null)
+}
 
 /**
  * End input stream with given stream.

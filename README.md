@@ -11,6 +11,8 @@ Transform any value into a stream (even promises)! A morph stream is also memory
 
 ```js
 const morph = require('morph')
+const fs = require('fs')
+
 
 // pipe string to response stream
 morph('hello').pipe(res)
@@ -21,8 +23,14 @@ morph(new Promise(resolve => {
 })).pipe(res)
 
 
-// pipe array to response stream
-morph(['hello', 'world', '!']).pipe(res)
+// pipe object to response stream
+morph({
+  beep: 'boop',
+  foo: 'bar'
+}).pipe(res)
+
+// pipe stream
+morph(fs.createReadStream(__dirname + '/sample.txt')).pipe(res)
 ```
 
 When a promise is rejected, the error is propagated through the stream and it's your responsibility to [catch it](https://nodejs.org/api/stream.html#stream_event_error_1) and process it.

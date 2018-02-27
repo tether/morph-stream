@@ -31,7 +31,7 @@ test('morph object', assert => {
 
 test('morph array', assert => {
   assert.plan(1)
-  morph(['hello', 'world']).pipe(concat(data => assert.equal(data, 'helloworld')))
+  morph(['hello', 'world']).pipe(concat(data => assert.deepEqual(JSON.parse(data), ['hello', 'world'])))
 })
 
 test('morph function', assert => {
