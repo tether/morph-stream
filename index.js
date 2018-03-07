@@ -135,7 +135,7 @@ function stringify (input, value) {
 
 function stream (input, value) {
   value.on('data', data => input.push(data))
-  value.on('error', err => input.emit('error', err))
+  value.on('error', err => error(input, err))
   value.on('end', () => input.push(null))
 }
 
@@ -167,7 +167,7 @@ function promise (input, value) {
 function error (input, value) {
   //@note we should debug errors
   // make error asynchronous
-  Promise.resolve().then(() => input.emit('error', value))
+  input.destroy(value)
 }
 
 

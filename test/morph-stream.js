@@ -39,10 +39,9 @@ test('morph function', assert => {
   morph(() => 'hello world').pipe(concat(data => assert.equal(data.toString(), 'hello world')))
 })
 
-test('morph input stream into output stream', assert => {
+test('morph function that return primitive', assert => {
   assert.plan(1)
-  morph(fs.createReadStream(__dirname + '/morph.txt'))
-    .pipe(concat(data => assert.equal(data.toString(), 'hello world!\n')))
+  morph(() => 2).pipe(concat(data => assert.equal(data.toString(), '2')))
 })
 
 test('morph resolved promise', assert => {
@@ -59,13 +58,13 @@ test('morph rejected promise', assert => {
   morph(promise).on('error', err => assert.equal(err, 'hello'))
 })
 
-test('morph string resolved by promise', assert => {
+
+test('morph input stream into output stream', assert => {
   assert.plan(1)
-  const promise = new Promise((resolve, reject) => {
-    resolve('hello world!')
-  })
-  morph(promise).pipe(concat(data => assert.equal(data.toString(), 'hello world!')))
+  morph(fs.createReadStream(__dirname + '/morph.txt'))
+    .pipe(concat(data => assert.equal(data.toString(), 'hello world!\n')))
 })
+
 
 test('morph stream resolved by promise', assert => {
   assert.plan(1)
